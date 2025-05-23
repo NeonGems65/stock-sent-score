@@ -1,6 +1,5 @@
 Example Output: 
 
-https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=NVDA&limit=1000&time_from=20240901T0130&time_to=20241201T0130&apikey=W8S3IOCJ9J711O6I
 Analysis for CZR
 20240901T0130 numerical sentiment: 0.14149037096774195
 20240901T0130 number of ratings found: 62
