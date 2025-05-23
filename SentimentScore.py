@@ -13,31 +13,26 @@ def getObj(url):
     return get_jsonparsed_data(url)
 
 # Attain APIKey from this website https://www.alphavantage.co/support/#api-key and paste into string
-# apiKey = "0K6Z1IRED41VX9RS"
-# apiKey = "FRUP33ILUMVIJFAI"
-# apiKey = "31OWSPTVLBN8K6LX"
-apiKey = "W8S3IOCJ9J711O6I"
-# apiKey = "IWZMEW5TR1MDQANT"
+apiKey = ""
 
 # Set start and end date for "past" analysis
+# Time from Sept 2024 to Dec 2024
 startDate1 = "20240901T0130"
 endDate1 = "20241201T0130"
 
 # Set 2nd start date, will collect data all the way to the present
+# Time from Jan 2025 to present
 startDate2 = "20250104T0130"
 
 # List of tickers that will be analyzed (max 12)
 listOfTickers = ["CZR", "SONY", "TSLA", "LAZ", "MS", "UBS", "ILMN", "IQV", "ASML", "MSFT", "NOW", "NVDA"]
-    # listOfTickers = ["NVDA", "ORIS"]
-    # listOfTickers = ["VCR","VFH","SMH","VGT","QQQ","SCHD","SPY","VONG"]
+    
 
 txtfile.write("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=" + "NVDA" + "&limit=1000&time_from=" + startDate1 + "&time_to=" + endDate1 + "&apikey=" + apiKey)
 def generateCsvs(selectedTicker):
     
     
-    ## Time from Sept 2024 to Dec 2024
     pastObj = getObj("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=" + selectedTicker + "&limit=1000&time_from=" + startDate1 + "&time_to=" + endDate1 + "&apikey=" + apiKey)
-    ## Time from Jan 2025 to present
     presentObj = getObj("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=" + selectedTicker + "&limit=1000&time_from=" + startDate2 + "&apikey=" + apiKey)
     
     def findSentAvg(tickerSymbol, obj):
@@ -56,26 +51,13 @@ def generateCsvs(selectedTicker):
     
     def generateResult(obj, nameOfFile):
         print(obj)
-        # tickerList = []
-        # for item in obj["feed"]:
-        #     for ticker_sentiment in item["ticker_sentiment"]:
-        #         newTicker = ticker_sentiment["ticker"]
-        #         if newTicker not in tickerList:
-        #             tickerList.append(newTicker)
-        # tickerList.sort()
-        #txtfile.write(tickerList)
         
-        #sentScoreList = []
-        #ratingsFound = []
         verbalRating = ""
         
-        # for ticker in tickerList:
             
-        # if ticker == selectedTicker: 
+        
         sentScoreAvg, j = findSentAvg(selectedTicker, obj)
-        #txtfile.write(ticker)
-        #txtfile.write(sentScoreAvg)
-        #sentScoreList.append(sentScoreAvg)
+        
         ratingsFound = j
                 
         if sentScoreAvg <= -0.35:
@@ -89,9 +71,6 @@ def generateCsvs(selectedTicker):
         else:
             verbalRating = "Bullish"
         
-       ## with open(nameOfFile + "__" + selectedTicker + ".csv", 'w', newline="") as f:
-         ##   csvWriter = csv.writer(f)
-           ## csvWriter.writerow([selectedTicker, sentScoreAvg, ratingsFound, verbalRating])
         returnArr = [sentScoreAvg, ratingsFound, verbalRating]
         return returnArr
     
